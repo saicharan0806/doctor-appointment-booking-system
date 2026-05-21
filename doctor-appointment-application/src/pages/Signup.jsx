@@ -3,18 +3,35 @@ import Navbar from "../components/Navbar";
 import "../styles/Signup.css";
 
 function Signup() {
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [contact, setContact] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] =
+    useState("");
 
   const handleSignup = () => {
+
+    // Check Empty Fields
+    if (
+      !name ||
+      !email ||
+      !contact ||
+      !password ||
+      !confirmPassword
+    ) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    // Password Match Validation
     if (password !== confirmPassword) {
       alert("Passwords do not match");
       return;
     }
 
+    // Store User Data
     const userData = {
       name,
       email,
@@ -22,53 +39,84 @@ function Signup() {
       password,
     };
 
-    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem(
+      "user",
+      JSON.stringify(userData)
+    );
 
     alert("Signup Successful");
+
+    // Clear Fields
+    setName("");
+    setEmail("");
+    setContact("");
+    setPassword("");
+    setConfirmPassword("");
   };
 
   return (
-    <div className="signup-container">
+    <>
       <Navbar />
 
-      <div className="signup-form">
-        <h1>Create Account</h1>
+      <div className="signup-container">
 
-        <input
-          type="text"
-          placeholder="Full Name"
-          onChange={(e) => setName(e.target.value)}
-        />
+        <div className="signup-form">
 
-        <input
-          type="email"
-          placeholder="Email Address"
-          onChange={(e) => setEmail(e.target.value)}
-        />
+          <h1>Create Account</h1>
 
-        <input
-          type="text"
-          placeholder="Contact Number"
-          onChange={(e) => setContact(e.target.value)}
-        />
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) =>
+              setName(e.target.value)
+            }
+          />
 
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
+          />
 
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
+          <input
+            type="text"
+            placeholder="Contact Number"
+            value={contact}
+            onChange={(e) =>
+              setContact(e.target.value)
+            }
+          />
 
-        <button onClick={handleSignup}>
-          Register
-        </button>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
+          />
+
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) =>
+              setConfirmPassword(e.target.value)
+            }
+          />
+
+          <button onClick={handleSignup}>
+            Register
+          </button>
+
+        </div>
+
       </div>
-    </div>
+    </>
   );
 }
 
