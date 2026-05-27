@@ -13,7 +13,11 @@ function Navbar() {
         <Link to="/login">
           <button className="login-btn">Login</button>
         </Link>
-
+<Link to="/doctors">Doctors</Link>
+<Link to="/booking">Booking</Link>
+<Link to="/history">History</Link>
+<Link to="/profile">Profile</Link>
+<Link to="/admin">Admin</Link>
         <Link to="/signup">
           <button className="signup-btn">Signup</button>
         </Link>

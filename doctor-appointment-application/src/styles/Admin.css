@@ -1,0 +1,63 @@
+.admin-page {
+    padding: 40px;
+    min-height: 100vh;
+    background-color: #f4f8fc;
+}
+
+.admin-page h1 {
+    text-align: center;
+    color: #0077b6;
+    margin-bottom: 40px;
+    font-size: 45px;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 50px;
+}
+
+.admin-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.admin-card h2 {
+    color: #023e8a;
+    margin-bottom: 15px;
+}
+
+.admin-card p {
+    font-size: 40px;
+    color: #0077b6;
+    font-weight: bold;
+}
+
+.booking-section {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.booking-section h2 {
+    color: #023e8a;
+    margin-bottom: 25px;
+}
+
+.booking-card {
+    border: 1px solid #ddd;
+    padding: 18px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    background-color: #f9fbff;
+}
+
+.booking-card p {
+    margin: 8px 0;
+    color: #444;
+}
