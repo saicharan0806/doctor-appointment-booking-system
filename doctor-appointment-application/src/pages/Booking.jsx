@@ -5,16 +5,22 @@ import Navbar from "../components/Navbar";
 import "../styles/Booking.css";
 
 function Booking() {
-  const selectedDoctor = JSON.parse(
-    localStorage.getItem("selectedDoctor")
-  );
+
+  const selectedDoctor =
+    JSON.parse(
+      localStorage.getItem(
+        "selectedDoctor"
+      )
+    ) || {};
 
   const [patientName, setPatientName] =
     useState("");
 
-  const [date, setDate] = useState("");
+  const [date, setDate] =
+    useState("");
 
-  const [slot, setSlot] = useState("");
+  const [slot, setSlot] =
+    useState("");
 
   const slots = [
     "10:00 AM",
@@ -25,6 +31,7 @@ function Booking() {
   ];
 
   const handleBooking = () => {
+
     if (
       !patientName ||
       !date ||
@@ -34,26 +41,63 @@ function Booking() {
       return;
     }
 
+    const today =
+      new Date()
+        .toISOString()
+        .split("T")[0];
+
+    if (date < today) {
+      alert(
+        "Past dates are not allowed"
+      );
+      return;
+    }
+
     const booking = {
-      doctorName:
-        selectedDoctor?.name,
-      specialty:
-        selectedDoctor?.specialty,
       patientName,
+      doctorName:
+        selectedDoctor.name,
+      specialty:
+        selectedDoctor.specialty,
       date,
       slot,
+      status: "Confirmed",
     };
 
     const existingBookings =
       JSON.parse(
-        localStorage.getItem("bookings")
+        localStorage.getItem(
+          "bookings"
+        )
       ) || [];
 
-    existingBookings.push(booking);
+    const duplicateBooking =
+      existingBookings.find(
+        (b) =>
+          b.doctorName ===
+            booking.doctorName &&
+          b.date === booking.date &&
+          b.slot === booking.slot &&
+          b.status !==
+            "Cancelled"
+      );
+
+    if (duplicateBooking) {
+      alert(
+        "This slot is already booked."
+      );
+      return;
+    }
+
+    existingBookings.push(
+      booking
+    );
 
     localStorage.setItem(
       "bookings",
-      JSON.stringify(existingBookings)
+      JSON.stringify(
+        existingBookings
+      )
     );
 
     alert(
@@ -70,28 +114,24 @@ function Booking() {
       <Navbar />
 
       <div className="booking-page">
+
         <div className="booking-form">
-          <h1>Book Appointment</h1>
 
-          {selectedDoctor && (
-            <div
-              style={{
-                marginBottom: "20px",
-                padding: "15px",
-                backgroundColor: "#f0f8ff",
-                borderRadius: "10px",
-              }}
-            >
-              <h3>
-                Doctor: {selectedDoctor.name}
-              </h3>
+          <h1>
+            Book Appointment
+          </h1>
 
-              <p>
-                Specialty:{" "}
-                {selectedDoctor.specialty}
-              </p>
-            </div>
-          )}
+          <h3>
+            Doctor:{" "}
+            {selectedDoctor.name}
+          </h3>
+
+          <p>
+            Specialty:{" "}
+            {
+              selectedDoctor.specialty
+            }
+          </p>
 
           <input
             type="text"
@@ -107,37 +147,57 @@ function Booking() {
           <input
             type="date"
             value={date}
+            min={
+              new Date()
+                .toISOString()
+                .split("T")[0]
+            }
             onChange={(e) =>
-              setDate(e.target.value)
+              setDate(
+                e.target.value
+              )
             }
           />
 
           <select
             value={slot}
             onChange={(e) =>
-              setSlot(e.target.value)
+              setSlot(
+                e.target.value
+              )
             }
           >
+
             <option value="">
               Select Time Slot
             </option>
 
-            {slots.map((time, index) => (
-              <option
-                key={index}
-                value={time}
-              >
-                {time}
-              </option>
-            ))}
+            {slots.map(
+              (
+                time,
+                index
+              ) => (
+                <option
+                  key={index}
+                  value={time}
+                >
+                  {time}
+                </option>
+              )
+            )}
+
           </select>
 
           <button
-            onClick={handleBooking}
+            onClick={
+              handleBooking
+            }
           >
             Confirm Booking
           </button>
+
         </div>
+
       </div>
     </>
   );
