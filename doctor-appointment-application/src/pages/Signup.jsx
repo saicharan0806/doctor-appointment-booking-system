@@ -13,7 +13,6 @@ function Signup() {
 
   const handleSignup = () => {
 
-    // Check Empty Fields
     if (
       !name ||
       !email ||
@@ -25,19 +24,56 @@ function Signup() {
       return;
     }
 
-    // Password Match Validation
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+
+      alert(
+        "Password must contain:\n" +
+        "• At least 8 characters\n" +
+        "• One uppercase letter\n" +
+        "• One lowercase letter\n" +
+        "• One number\n" +
+        "• One special character"
+      );
+
+      return;
+    }
+
     if (password !== confirmPassword) {
       alert("Passwords do not match");
       return;
     }
 
-    // Store User Data
     const userData = {
       name,
       email,
       contact,
       password,
     };
+
+    const existingUsers =
+      JSON.parse(
+        localStorage.getItem("users")
+      ) || [];
+
+    const userExists =
+      existingUsers.find(
+        (user) => user.email === email
+      );
+
+    if (userExists) {
+      alert("User already exists");
+      return;
+    }
+
+    existingUsers.push(userData);
+
+    localStorage.setItem(
+      "users",
+      JSON.stringify(existingUsers)
+    );
 
     localStorage.setItem(
       "user",
@@ -46,7 +82,6 @@ function Signup() {
 
     alert("Signup Successful");
 
-    // Clear Fields
     setName("");
     setEmail("");
     setContact("");
@@ -100,12 +135,21 @@ function Signup() {
             }
           />
 
+          <p className="password-hint">
+            Password must contain at least 8
+            characters, one uppercase letter,
+            one lowercase letter, one number
+            and one special character.
+          </p>
+
           <input
             type="password"
             placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) =>
-              setConfirmPassword(e.target.value)
+              setConfirmPassword(
+                e.target.value
+              )
             }
           />
 

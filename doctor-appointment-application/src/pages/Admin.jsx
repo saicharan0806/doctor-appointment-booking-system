@@ -1,4 +1,5 @@
 import Navbar from "../components/Navbar";
+import doctors from "../data/doctors";
 
 import "../styles/Admin.css";
 
@@ -9,12 +10,13 @@ function Admin() {
       localStorage.getItem("bookings")
     ) || [];
 
-  const user =
+  const users =
     JSON.parse(
-      localStorage.getItem("user")
-    ) || {};
+      localStorage.getItem("users")
+    ) || [];
 
-  const doctorsCount = 4;
+  const doctorsCount =
+    doctors.length;
 
   return (
     <>
@@ -27,23 +29,27 @@ function Admin() {
         <div className="admin-grid">
 
           <div className="admin-card">
+
             <h2>Total Doctors</h2>
 
             <p>{doctorsCount}</p>
+
           </div>
 
           <div className="admin-card">
+
             <h2>Total Patients</h2>
 
-            <p>
-              {user.name ? 1 : 0}
-            </p>
+            <p>{users.length}</p>
+
           </div>
 
           <div className="admin-card">
+
             <h2>Total Appointments</h2>
 
             <p>{bookings.length}</p>
+
           </div>
 
         </div>
@@ -67,20 +73,27 @@ function Admin() {
                 >
 
                   <p>
-                    <strong>Patient:</strong>
-                    {" "}
+                    <strong>Patient:</strong>{" "}
                     {booking.patientName}
                   </p>
 
                   <p>
-                    <strong>Date:</strong>
-                    {" "}
+                    <strong>Doctor:</strong>{" "}
+                    {booking.doctorName}
+                  </p>
+
+                  <p>
+                    <strong>Specialty:</strong>{" "}
+                    {booking.specialty}
+                  </p>
+
+                  <p>
+                    <strong>Date:</strong>{" "}
                     {booking.date}
                   </p>
 
                   <p>
-                    <strong>Slot:</strong>
-                    {" "}
+                    <strong>Slot:</strong>{" "}
                     {booking.slot}
                   </p>
 

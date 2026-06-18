@@ -9,15 +9,31 @@ function History() {
   const [bookings, setBookings] =
     useState([]);
 
+  const [editingIndex, setEditingIndex] =
+    useState(null);
+
+  const [newDate, setNewDate] =
+    useState("");
+
+  const [newSlot, setNewSlot] =
+    useState("");
+
+  const slots = [
+    "10:00 AM",
+    "11:00 AM",
+    "12:00 PM",
+    "2:00 PM",
+    "4:00 PM",
+  ];
+
   useEffect(() => {
 
     const storedBookings =
       JSON.parse(
         localStorage.getItem("bookings")
       ) || [];
-    if(storedBookings){
-      setBookings(storedBookings);
-    }
+
+    setBookings(storedBookings);
 
   }, []);
 
@@ -36,6 +52,47 @@ function History() {
     );
 
     alert("Appointment Cancelled");
+  };
+
+  const startReschedule = (index) => {
+
+    setEditingIndex(index);
+
+    setNewDate(bookings[index].date);
+
+    setNewSlot(bookings[index].slot);
+  };
+
+  const saveReschedule = (index) => {
+
+    if (!newDate || !newSlot) {
+      alert(
+        "Please select date and slot"
+      );
+      return;
+    }
+
+    const updatedBookings =
+      [...bookings];
+
+    updatedBookings[index] = {
+      ...updatedBookings[index],
+      date: newDate,
+      slot: newSlot,
+    };
+
+    setBookings(updatedBookings);
+
+    localStorage.setItem(
+      "bookings",
+      JSON.stringify(updatedBookings)
+    );
+
+    setEditingIndex(null);
+
+    alert(
+      "Appointment Rescheduled Successfully"
+    );
   };
 
   return (
@@ -69,20 +126,99 @@ function History() {
                   </h2>
 
                   <p>
-                    Date: {booking.date}
+                    <strong>Doctor:</strong>{" "}
+                    {booking.doctorName}
                   </p>
 
                   <p>
-                    Slot: {booking.slot}
+                    <strong>Specialty:</strong>{" "}
+                    {booking.specialty}
                   </p>
 
-                  <button
-                    onClick={() =>
-                      cancelBooking(index)
-                    }
-                  >
-                    Cancel Appointment
-                  </button>
+                  <p>
+                    <strong>Date:</strong>{" "}
+                    {booking.date}
+                  </p>
+
+                  <p>
+                    <strong>Slot:</strong>{" "}
+                    {booking.slot}
+                  </p>
+
+                  {editingIndex === index ? (
+                    <>
+
+                      <input
+                        type="date"
+                        value={newDate}
+                        onChange={(e) =>
+                          setNewDate(
+                            e.target.value
+                          )
+                        }
+                      />
+
+                      <select
+                        value={newSlot}
+                        onChange={(e) =>
+                          setNewSlot(
+                            e.target.value
+                          )
+                        }
+                      >
+
+                        {slots.map(
+                          (
+                            slot,
+                            slotIndex
+                          ) => (
+                            <option
+                              key={
+                                slotIndex
+                              }
+                              value={slot}
+                            >
+                              {slot}
+                            </option>
+                          )
+                        )}
+
+                      </select>
+
+                      <button
+                        onClick={() =>
+                          saveReschedule(
+                            index
+                          )
+                        }
+                      >
+                        Save Changes
+                      </button>
+
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() =>
+                          startReschedule(
+                            index
+                          )
+                        }
+                      >
+                        Reschedule
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          cancelBooking(
+                            index
+                          )
+                        }
+                      >
+                        Cancel Appointment
+                      </button>
+                    </>
+                  )}
 
                 </div>
               )

@@ -11,6 +11,11 @@ function Profile() {
       localStorage.getItem("user")
     ) || {};
 
+  const bookings =
+    JSON.parse(
+      localStorage.getItem("bookings")
+    ) || [];
+
   const [name, setName] =
     useState(storedUser.name || "");
 
@@ -86,6 +91,64 @@ function Profile() {
           <button onClick={updateProfile}>
             Update Profile
           </button>
+
+          <div className="appointment-summary">
+
+            <h2>Appointment Summary</h2>
+
+            <p>
+              Total Appointments:
+              {" "}
+              {bookings.length}
+            </p>
+
+          </div>
+
+          <div className="booking-history">
+
+            <h2>Previous Bookings</h2>
+
+            {bookings.length === 0 ? (
+
+              <p>No Appointments Found</p>
+
+            ) : (
+
+              bookings.map(
+                (booking, index) => (
+
+                  <div
+                    className="booking-item"
+                    key={index}
+                  >
+
+                    <p>
+                      <strong>Doctor:</strong>{" "}
+                      {booking.doctorName}
+                    </p>
+
+                    <p>
+                      <strong>Specialty:</strong>{" "}
+                      {booking.specialty}
+                    </p>
+
+                    <p>
+                      <strong>Date:</strong>{" "}
+                      {booking.date}
+                    </p>
+
+                    <p>
+                      <strong>Slot:</strong>{" "}
+                      {booking.slot}
+                    </p>
+
+                  </div>
+                )
+              )
+
+            )}
+
+          </div>
 
         </div>
 

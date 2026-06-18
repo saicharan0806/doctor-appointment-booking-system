@@ -56,3 +56,16 @@
 .history-card button:hover {
     background-color: darkred;
 }
+
+.history-card input,
+.history-card select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.history-card button {
+    margin-top: 10px;
+    margin-right: 10px;
+}

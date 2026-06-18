@@ -5,6 +5,9 @@ import Navbar from "../components/Navbar";
 import "../styles/Booking.css";
 
 function Booking() {
+  const selectedDoctor = JSON.parse(
+    localStorage.getItem("selectedDoctor")
+  );
 
   const [patientName, setPatientName] =
     useState("");
@@ -22,7 +25,6 @@ function Booking() {
   ];
 
   const handleBooking = () => {
-
     if (
       !patientName ||
       !date ||
@@ -33,6 +35,10 @@ function Booking() {
     }
 
     const booking = {
+      doctorName:
+        selectedDoctor?.name,
+      specialty:
+        selectedDoctor?.specialty,
       patientName,
       date,
       slot,
@@ -50,7 +56,9 @@ function Booking() {
       JSON.stringify(existingBookings)
     );
 
-    alert("Appointment Booked Successfully");
+    alert(
+      "Appointment Booked Successfully"
+    );
 
     setPatientName("");
     setDate("");
@@ -62,17 +70,37 @@ function Booking() {
       <Navbar />
 
       <div className="booking-page">
-
         <div className="booking-form">
-
           <h1>Book Appointment</h1>
+
+          {selectedDoctor && (
+            <div
+              style={{
+                marginBottom: "20px",
+                padding: "15px",
+                backgroundColor: "#f0f8ff",
+                borderRadius: "10px",
+              }}
+            >
+              <h3>
+                Doctor: {selectedDoctor.name}
+              </h3>
+
+              <p>
+                Specialty:{" "}
+                {selectedDoctor.specialty}
+              </p>
+            </div>
+          )}
 
           <input
             type="text"
             placeholder="Patient Name"
             value={patientName}
             onChange={(e) =>
-              setPatientName(e.target.value)
+              setPatientName(
+                e.target.value
+              )
             }
           />
 
@@ -90,7 +118,6 @@ function Booking() {
               setSlot(e.target.value)
             }
           >
-
             <option value="">
               Select Time Slot
             </option>
@@ -103,15 +130,14 @@ function Booking() {
                 {time}
               </option>
             ))}
-
           </select>
 
-          <button onClick={handleBooking}>
+          <button
+            onClick={handleBooking}
+          >
             Confirm Booking
           </button>
-
         </div>
-
       </div>
     </>
   );

@@ -4,11 +4,12 @@
     background-color: #f4f8fc;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    padding: 40px 20px;
 }
 
 .profile-card {
-    width: 420px;
+    width: 700px;
     background-color: white;
     padding: 40px;
     border-radius: 15px;
@@ -47,4 +48,43 @@
 
 .profile-card button:hover {
     background-color: #023e8a;
+}
+
+.appointment-summary {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f4f8fc;
+    border-radius: 10px;
+}
+
+.appointment-summary h2 {
+    color: #023e8a;
+    margin-bottom: 10px;
+}
+
+.appointment-summary p {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.booking-history {
+    margin-top: 30px;
+}
+
+.booking-history h2 {
+    color: #023e8a;
+    margin-bottom: 20px;
+}
+
+.booking-item {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fafafa;
+}
+
+.booking-item p {
+    margin: 6px 0;
+    color: #444;
 }

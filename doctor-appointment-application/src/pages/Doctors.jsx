@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import doctors from "../data/doctors";
-
 import Navbar from "../components/Navbar";
 
 import "../styles/Doctors.css";
@@ -9,9 +9,20 @@ import "../styles/Doctors.css";
 function Doctors() {
 
   const [search, setSearch] = useState("");
-
   const [specialty, setSpecialty] =
     useState("All");
+
+  const navigate = useNavigate();
+
+  const handleBookDoctor = (doctor) => {
+
+    localStorage.setItem(
+      "selectedDoctor",
+      JSON.stringify(doctor)
+    );
+
+    navigate("/booking");
+  };
 
   const filteredDoctors = doctors.filter(
     (doctor) => {
@@ -42,12 +53,14 @@ function Doctors() {
           <input
             type="text"
             placeholder="Search doctor..."
+            value={search}
             onChange={(e) =>
               setSearch(e.target.value)
             }
           />
 
           <select
+            value={specialty}
             onChange={(e) =>
               setSpecialty(e.target.value)
             }
@@ -72,10 +85,21 @@ function Doctors() {
               key={doctor.id}
             >
 
-              <img
-                src={doctor.image}
-                alt={doctor.name}
-              />
+              <div className="specialty-icon">
+
+                {doctor.specialty ===
+                  "Cardiologist" && "🫀"}
+
+                {doctor.specialty ===
+                  "Dermatologist" && "🧴"}
+
+                {doctor.specialty ===
+                  "Neurologist" && "🧠"}
+
+                {doctor.specialty ===
+                  "Pediatrician" && "👶"}
+
+              </div>
 
               <h2>{doctor.name}</h2>
 
@@ -83,11 +107,16 @@ function Doctors() {
 
               <p>{doctor.experience}</p>
 
-              <button>
+              <button
+                onClick={() =>
+                  handleBookDoctor(doctor)
+                }
+              >
                 Book Appointment
               </button>
 
             </div>
+
           ))}
 
         </div>
