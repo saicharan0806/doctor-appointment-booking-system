@@ -1,4 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
+
 import "../styles/Navbar.css";
 
 function Navbar() {
@@ -6,7 +10,12 @@ function Navbar() {
   const navigate = useNavigate();
 
   const isLoggedIn =
-    localStorage.getItem("isLoggedIn");
+    localStorage.getItem(
+      "isLoggedIn"
+    );
+
+  const role =
+    localStorage.getItem("role");
 
   const handleLogout = () => {
 
@@ -14,7 +23,17 @@ function Navbar() {
       "isLoggedIn"
     );
 
-    alert("Logged Out Successfully");
+    localStorage.removeItem(
+      "role"
+    );
+
+    localStorage.removeItem(
+      "user"
+    );
+
+    alert(
+      "Logged Out Successfully"
+    );
 
     navigate("/login");
   };
@@ -46,12 +65,15 @@ function Navbar() {
           Profile
         </Link>
 
-        <Link to="/admin">
-          Admin
-        </Link>
+        {role === "admin" && (
+          <Link to="/admin">
+            Admin
+          </Link>
+        )}
 
         {!isLoggedIn ? (
           <>
+
             <Link to="/login">
               <button className="login-btn">
                 Login
@@ -63,14 +85,19 @@ function Navbar() {
                 Signup
               </button>
             </Link>
+
           </>
         ) : (
+
           <button
             className="logout-btn"
-            onClick={handleLogout}
+            onClick={
+              handleLogout
+            }
           >
             Logout
           </button>
+
         )}
 
       </div>

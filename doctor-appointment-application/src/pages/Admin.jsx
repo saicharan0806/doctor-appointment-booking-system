@@ -5,6 +5,33 @@ import "../styles/Admin.css";
 
 function Admin() {
 
+  const role =
+    localStorage.getItem("role");
+
+  // Protect Admin Dashboard
+  if (role !== "admin") {
+
+    return (
+      <>
+        <Navbar />
+
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: "100px",
+          }}
+        >
+          <h1>Access Denied</h1>
+
+          <p>
+            Only Admin Can Access
+            This Page
+          </p>
+        </div>
+      </>
+    );
+  }
+
   const bookings =
     JSON.parse(
       localStorage.getItem("bookings")
@@ -95,6 +122,12 @@ function Admin() {
                   <p>
                     <strong>Slot:</strong>{" "}
                     {booking.slot}
+                  </p>
+
+                  <p>
+                    <strong>Status:</strong>{" "}
+                    {booking.status ||
+                      "Confirmed"}
                   </p>
 
                 </div>

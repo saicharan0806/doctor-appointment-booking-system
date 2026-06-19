@@ -16,6 +16,32 @@ function Login() {
 
   const handleLogin = () => {
 
+    // Admin Login
+    if (
+      email === "admin@hospital.com" &&
+      password === "admin123"
+    ) {
+
+      localStorage.setItem(
+        "role",
+        "admin"
+      );
+
+      localStorage.setItem(
+        "isLoggedIn",
+        "true"
+      );
+
+      alert(
+        "Admin Login Successful"
+      );
+
+      navigate("/admin");
+
+      return;
+    }
+
+    // Patient Login
     const users =
       JSON.parse(
         localStorage.getItem("users")
@@ -40,7 +66,14 @@ function Login() {
         "true"
       );
 
-      alert("Login Successful");
+      localStorage.setItem(
+        "role",
+        "patient"
+      );
+
+      alert(
+        "Patient Login Successful"
+      );
 
       navigate("/");
     }
@@ -81,6 +114,17 @@ function Login() {
         <button onClick={handleLogin}>
           Login
         </button>
+
+        <p
+          style={{
+            marginTop: "15px",
+            fontSize: "14px",
+          }}
+        >
+          Admin Login:
+          admin@hospital.com /
+          admin123
+        </p>
 
       </div>
 
